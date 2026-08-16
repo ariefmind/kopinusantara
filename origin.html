@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARSA — Origin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #17110B;
+    --bg-panel: #1F1710;
+    --text: #EEE4D3;
+    --text-dim: #A99A81;
+    --clay: #B8542A;
+    --moss: #6E8158;
+    --gold: #D4A017;
+    --line: rgba(238,228,211,0.14);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+  ::selection{ background: var(--clay); color: var(--bg); }
+  a{ color: inherit; }
+  button{ font: inherit; }
+
+  .caption{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ---------- NAV ---------- */
+  .topnav{
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.6rem 2.4rem;
+    background: rgba(23,17,11,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topnav .mark{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+  }
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.25s ease;
+  }
+  .back-link:hover{ color: var(--text); }
+
+  .nav-links{
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+  }
+  .nav-links a{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-dim);
+    transition: color 0.25s ease;
+  }
+  .nav-links a:hover, .nav-links a.active{ color: var(--text); }
+  .nav-links a.active{ border-bottom: 1px solid var(--clay); padding-bottom: 3px; }
+
+  @media (max-width: 760px){
+    .nav-links{ display: none; }
+  }
+
+  /* ---------- SITE FOOTER ---------- */
+  .site-footer{
+    border-top: 1px solid var(--line);
+    padding: 3.2rem 8vw 2.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.6rem;
+    align-items: center;
+  }
+  .site-footer .mark{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .site-footer .foot-links{
+    display: flex;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+  }
+  .site-footer .foot-links a{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-dim);
+    transition: color 0.25s ease;
+  }
+  .site-footer .foot-links a:hover{ color: var(--text); }
+  .site-footer .foot-note{
+    width: 100%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    opacity: 0.6;
+    margin-top: 0.4rem;
+  }
+
+  /* ---------- HERO ---------- */
+  .origin-hero{
+    position: relative;
+    padding: 5.5rem 8vw 4rem;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .origin-hero::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 55% 60% at 90% 10%, rgba(184,84,42,0.12), transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow{
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+  }
+  .hero-eyebrow::before{
+    content:'';
+    width: 26px; height: 1px;
+    background: var(--clay);
+  }
+  h1.origin-title{
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(3.2rem, 8vw, 6.5rem);
+    line-height: 0.92;
+  }
+  h1.origin-title span{
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.36em;
+    color: var(--text-dim);
+    margin-top: 0.6rem;
+  }
+  .hero-lede{
+    max-width: 46ch;
+    margin-top: 1.6rem;
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .hero-glyph-wrap{
+    display: flex;
+    justify-content: center;
+  }
+  .hero-glyph-wrap svg{ width: 100%; max-width: 340px; }
+
+  /* ---------- STAT STRIP ---------- */
+  .stat-strip{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .stat-strip .stat{
+    flex: 1 1 160px;
+    padding: 1.6rem 2rem;
+    border-right: 1px solid var(--line);
+  }
+  .stat-strip .stat:last-child{ border-right: none; }
+  .stat-strip .label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .stat-strip .val{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--gold);
+  }
+
+  /* ---------- BODY LAYOUT ---------- */
+  .origin-body{
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 4rem;
+    padding: 4.5rem 8vw 7rem;
+    align-items: start;
+  }
+
+  .content section{
+    margin-bottom: 3.2rem;
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  .content h2{
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .content p{
+    max-width: 62ch;
+    color: var(--text-dim);
+    line-height: 1.75;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .flavor-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.4rem;
+  }
+  .flavor-tags span{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--text);
+  }
+
+  /* ---------- SIDEBAR / CTA ---------- */
+  .buy-panel{
+    position: sticky;
+    top: 6.5rem;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.9rem;
+  }
+  .buy-panel .price{
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    margin-bottom: 0.2rem;
+  }
+  .buy-panel .price small{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .buy-panel .pack-row{
+    display: flex;
+    gap: 0.6rem;
+    margin: 1.4rem 0 1.6rem;
+  }
+  .pack-btn{
+    flex: 1;
+    padding: 0.6rem 0;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    transition: border-color 0.25s ease, color 0.25s ease;
+  }
+  .pack-btn.active, .pack-btn:hover{
+    border-color: var(--gold);
+    color: var(--text);
+  }
+
+  .cta-primary, .cta-secondary{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.95rem;
+    border-radius: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  }
+  .cta-primary{
+    background: var(--clay);
+    color: #17110B;
+    margin-bottom: 0.7rem;
+  }
+  .cta-primary:hover{ background: #cc5f30; }
+  .cta-secondary{
+    background: transparent;
+    border-color: var(--line);
+    color: var(--text);
+  }
+  .cta-secondary:hover{ border-color: var(--moss); }
+  .cta-primary:focus-visible, .cta-secondary:focus-visible, .pack-btn:focus-visible{
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .buy-panel .fine-note{
+    margin-top: 1.1rem;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px){
+    .origin-hero{ grid-template-columns: 1fr; }
+    .hero-glyph-wrap{ order: -1; }
+    .origin-body{ grid-template-columns: 1fr; }
+    .buy-panel{ position: static; }
+  }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(10,7,4,0.72);
+    backdrop-filter: blur(3px);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  .modal-overlay.is-open{ display: flex; }
+  .modal-box{
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 2rem;
+  }
+  .modal-box h3{
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+  .modal-box .modal-sub{
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    margin-bottom: 1.6rem;
+  }
+  .modal-box label{
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+  }
+  .modal-box input, .modal-box textarea{
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.7rem 0.85rem;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 1.1rem;
+    resize: vertical;
+  }
+  .modal-box input:focus, .modal-box textarea:focus{
+    outline: 2px solid var(--gold);
+    outline-offset: 1px;
+  }
+  .modal-actions{
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 0.4rem;
+  }
+  .modal-actions button{ flex: 1; }
+  .modal-close{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-dim);
+    border-radius: 10px;
+    padding: 0.9rem;
+    cursor: pointer;
+  }
+  .modal-success{
+    text-align: center;
+    padding: 1rem 0;
+  }
+  .modal-success .check{
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+  .modal-success p{ color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" style="display:flex;align-items:center;gap:0.65rem;line-height:0;"><img src="images/logo-arsa.png" alt="ARSA — Island Brew Culture" style="height:40px;width:auto;"><span class="mark">ARSA</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="shipping.html">Shipping &amp; Export</a>
+    <a href="retail.html" style="color: var(--gold);">Shop</a>
+  </div>
+  <a class="back-link" href="index.html">← Back to origins</a>
+</nav>
+
+<main id="pageContent"></main>
+
+<footer class="site-footer">
+  <a href="index.html" style="display:flex;align-items:center;gap:0.55rem;line-height:0;"><img src="images/logo-arsa.png" alt="ARSA — Island Brew Culture" style="height:28px;width:auto;"><span class="mark">ARSA</span></a>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="shipping.html">Shipping &amp; Export</a>
+    <a href="retail.html" style="color: var(--gold);">Shop</a>
+  </div>
+  <span class="foot-note">© 2026 ARSA Coffee. Sourced from Sumatra, Sulawesi, Bali, Flores, Java &amp; Papua.</span>
+</footer>
+
+<!-- REQUEST / ORDER MODAL (shared for Request Sample and Buy Now) -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <!-- populated by JS -->
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+
+  // ---------- FULL ORIGIN CONTENT ----------
+  const FALLBACK_ORIGINS = {
+    gayo: {
+      name:'Gayo', region:'Aceh Highlands, Sumatra', elevation:'1,200–1,700 masl', coords:'4.6°N, 96.8°E',
+      process:'Wet-hulled (Giling Basah)', harvest:'Oct – Feb',
+      lede:'Grown in volcanic soil around Lake Laut Tawar, Gayo is Sumatra\u2019s signature cup — heavy-bodied and low in acidity, shaped by a wet-hulling method found almost nowhere else in the world.',
+      story:'Farmed by smallholders across the Gayo highlands, cherries are pulped within a day of picking, then parchment is hulled while still damp — a process unique to Sumatra. The result is a bean that dries unevenly on the outside but develops a syrupy, low-acid character prized in dark and espresso roasts.',
+      flavor:['Herbal','Cedar','Dark spice','Heavy body','Low acidity'],
+      price:'$19', glyph:'M10 140 L60 40 L90 90 L120 20 L160 100 L190 140'
+    },
+    toraja: {
+      name:'Toraja', region:'South Sulawesi', elevation:'1,400–2,100 masl', coords:'3.0°S, 119.8°E',
+      process:'Wet-hulled, hand-sorted', harvest:'Jul – Sep',
+      lede:'Grown on limestone mountain slopes in the highlands of Tana Toraja, this cup is defined by its sweetness — caramel and brown sugar carried on a full, low-acid body.',
+      story:'Toraja\u2019s terrain is steep and fragmented, so cherries are still picked and sorted almost entirely by hand by smallholder families. Careful red-cherry selection, followed by traditional wet-hulling, gives the coffee a rounded sweetness with almost no sharp edges.',
+      flavor:['Caramel','Brown sugar','Cedar','Low acidity','Full body'],
+      price:'$21', glyph:'M10 130 L45 60 L75 100 L110 15 L145 85 L190 130'
+    },
+    kintamani: {
+      name:'Kintamani', region:'Bali', elevation:'900–1,550 masl', coords:'8.2°S, 115.4°E',
+      process:'Fully washed', harvest:'Apr – Sep',
+      lede:'Interplanted with citrus under Bali\u2019s centuries-old subak irrigation system, Kintamani is the brightest cup in the collection — floral, citrus-forward, and lightly tart.',
+      story:'Subak, Bali\u2019s traditional water-sharing cooperative, governs how these highland farms are irrigated — a UNESCO-recognized system that also shapes what grows alongside the coffee. Interplanting with citrus and vegetables is thought to lend the cherries their fragrant, citrus-leaning profile. Beans are fully washed, unlike most Indonesian origins, for a cleaner, brighter cup.',
+      flavor:['Citrus','Floral','Light body','Bright acidity','Tea-like'],
+      price:'$20', glyph:'M10 135 L50 95 L80 110 L100 35 L130 95 L190 135'
+    },
+    bajawa: {
+      name:'Bajawa', region:'Flores', elevation:'1,200–1,650 masl', coords:'8.8°S, 121.0°E',
+      process:'Semi-washed', harvest:'May – Aug',
+      lede:'The easternmost origin in this collection — small gardens at the foot of Mount Inerie, shaded by candlenut trees, producing a round, quiet, chocolate-forward cup.',
+      story:'Bajawa\u2019s coffee gardens sit within a wider agroforestry system, shaded by candlenut and other native trees that moderate temperature and enrich the soil. Farms here are small and largely organic by necessity rather than certification, and cherries are semi-washed to preserve a soft, mellow sweetness.',
+      flavor:['Chocolate','Toasted nuts','Soft sweetness','Medium body','Low acidity'],
+      price:'$20', glyph:'M10 140 L55 70 L85 105 L115 25 L150 90 L190 140'
+    },
+    mandailing: {
+      name:'Mandailing', region:'North Sumatra', elevation:'1,100–1,600 masl', coords:'0.9°N, 99.4°E',
+      process:'Wet-hulled (Giling Basah)', harvest:'Sep – Dec',
+      lede:'One of Sumatra\u2019s best-known names abroad, Mandailing is full-bodied and syrupy, with dark chocolate and cedar notes and almost no perceptible acidity.',
+      story:'Grown in the Mandailing Natal highlands, this coffee shares Sumatra\u2019s signature wet-hulling process, which strips parchment while beans are still moist. The result is a heavier, earthier profile that has made Mandailing a long-standing favorite for dark roast blends.',
+      flavor:['Dark chocolate','Cedar','Earthy','Heavy body','Minimal acidity'],
+      price:'$18', glyph:'M10 138 L48 78 L78 118 L108 48 L142 108 L190 138'
+    },
+    lintong: {
+      name:'Lintong', region:'Lake Toba, Sumatra', elevation:'1,000–1,700 masl', coords:'2.3°N, 98.9°E',
+      process:'Wet-hulled (Giling Basah)', harvest:'Sep – Dec',
+      lede:'Grown around the vast caldera of Lake Toba, Lintong offers a woody, herbal cup with a thick, syrupy finish and gentle acidity.',
+      story:'Farmed largely by Batak Toba families on the slopes surrounding Lake Toba, Southeast Asia\u2019s largest volcanic lake, Lintong coffee is processed the traditional Sumatran way. Cooperatives handle much of the sorting and drying, producing a cup with a tobacco-like depth that Sumatra origins are known for.',
+      flavor:['Woody','Herbal','Tobacco','Syrupy body','Low acidity'],
+      price:'$18', glyph:'M10 132 L52 92 L82 112 L112 42 L146 100 L190 132'
+    },
+    'java-preanger': {
+      name:'Java Preanger', region:'West Java', elevation:'1,000–1,600 masl', coords:'7.0°S, 107.6°E',
+      process:'Fully washed', harvest:'May – Sep',
+      lede:'Grown on the volcanic slopes above Bandung, Preanger is Indonesia\u2019s oldest coffee-growing region — nutty, mellow, and cleaner than most island origins.',
+      story:'Coffee has been cultivated here since Dutch plantations were established in the region in the 18th century, and the terraced highland farms remain in use today. Fully washed processing gives Preanger a cleaner, milder cup than its wet-hulled Sumatran cousins — a gentle introduction to Indonesian coffee.',
+      flavor:['Nutty','Mellow','Clean finish','Medium body','Balanced acidity'],
+      price:'$17', glyph:'M10 136 L44 100 L74 120 L104 60 L138 112 L190 136'
+    },
+    wamena: {
+      name:'Wamena', region:'Baliem Valley, Papua', elevation:'1,400–1,800 masl', coords:'4.1°S, 138.9°E',
+      process:'Fully washed', harvest:'Apr – Aug',
+      lede:'Farmed in the remote Baliem Valley of the Papuan highlands, Wamena is organic by tradition and isolation — fruity, wine-like, with a delicate acidity rarely found elsewhere in the archipelago.',
+      story:'The Baliem Valley\u2019s geographic isolation means synthetic fertilizers and pesticides have never really reached local farms, making Wamena coffee organic in practice rather than by certification. Small-scale indigenous growers hand-pick and fully wash the cherries, producing one of the most distinct, fruit-forward cups in Indonesia.',
+      flavor:['Fruity','Wine-like','Delicate acidity','Light body','Floral finish'],
+      price:'$23', glyph:'M10 142 L58 88 L88 118 L118 42 L152 96 L190 142'
+    }
+  };
+
+  let ORIGINS = FALLBACK_ORIGINS;
+  const API_BASE = (window.ARSA_API_BASE || 'http://localhost:1337/api').replace(/\/+$/, ''); // set window.ARSA_API_BASE utk ganti URL saat hosting
+
+  async function init(){
+    try {
+      const res = await fetch(API_BASE + '/public/origins');
+      if(res.ok){
+        const data = await res.json();
+        if(Array.isArray(data) && data.length){
+          const map = {};
+          data.forEach(o => { map[o.slug] = o; });
+          ORIGINS = map;
+        }
+      }
+    } catch(e){ console.warn('Origins API tidak tersedia, pakai data cadangan.', e); }
+
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('origin') || 'gayo';
+  const o = ORIGINS[slug] || ORIGINS.gayo;
+
+  document.title = `ARSA — ${o.name}`;
+
+  document.getElementById('pageContent').innerHTML = `
+    <section class="origin-hero">
+      <div>
+        <div class="hero-eyebrow caption">Single Origin</div>
+        <h1 class="origin-title">${o.name}<span>${o.region}</span></h1>
+        <p class="hero-lede">${o.lede}</p>
+      </div>
+      <div class="hero-glyph-wrap">
+        <svg viewBox="0 0 200 160" fill="none">
+          <path d="${o.glyph}" stroke="#6E8158" stroke-width="1.6" opacity="0.6"/>
+          <circle cx="${o.glyph.split(' ')[3]}" cy="${o.glyph.split(' ')[4]}" r="3" fill="#D4A017"/>
+        </svg>
+      </div>
+    </section>
+
+    <div class="stat-strip">
+      <div class="stat"><span class="label">Elevation</span><span class="val">${o.elevation}</span></div>
+      <div class="stat"><span class="label">Coordinates</span><span class="val">${o.coords}</span></div>
+      <div class="stat"><span class="label">Process</span><span class="val">${o.process}</span></div>
+      <div class="stat"><span class="label">Harvest</span><span class="val">${o.harvest}</span></div>
+    </div>
+
+    <div class="origin-body">
+      <div class="content">
+        <section>
+          <h2>The story</h2>
+          <p>${o.story}</p>
+        </section>
+        <section>
+          <h2>Tasting notes</h2>
+          <div class="flavor-tags">${o.flavor.map(f => `<span>${f}</span>`).join('')}</div>
+        </section>
+      </div>
+
+      <aside class="buy-panel">
+        <div class="price">${o.price}<small style="display:block;margin-top:4px;">per 250g bag</small></div>
+        <div class="pack-row">
+          <button class="pack-btn active" data-pack="250g">250g</button>
+          <button class="pack-btn" data-pack="500g">500g</button>
+          <button class="pack-btn" data-pack="1kg">1kg</button>
+        </div>
+        <button class="cta-primary" id="buyNowBtn">Buy now</button>
+        <button class="cta-secondary" id="sampleBtn">Request sample</button>
+        <p class="fine-note">Roasted to order and shipped within 3 business days. Wholesale and export inquiries welcome via the sample request form.</p>
+      </aside>
+    </div>
+  `;
+
+  // pack size toggle (visual only)
+  document.querySelectorAll('.pack-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pack-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // ---------- reveal-on-scroll for content sections ----------
+  gsap.registerPlugin(ScrollTrigger);
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sections = document.querySelectorAll('.content section');
+  if(prefersReduced){
+    sections.forEach(s => { s.style.opacity = 1; s.style.transform = 'none'; });
+  } else {
+    sections.forEach(s => {
+      gsap.to(s, {
+        opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+        scrollTrigger: { trigger: s, start: 'top 85%' }
+      });
+    });
+  }
+
+  // ---------- shared modal for Request Sample / Buy Now ----------
+  const overlay = document.getElementById('modalOverlay');
+  const box = document.getElementById('modalBox');
+
+  function renderForm(kind){
+    const isSample = kind === 'sample';
+    box.innerHTML = `
+      <h3>${isSample ? 'Request a sample' : 'Order ' + o.name}</h3>
+      <p class="modal-sub">${isSample ? 'We\u2019ll ship a tasting sample of ' + o.name + ' and follow up by email.' : 'Fill in your details and our team will confirm your order by email.'}</p>
+      <form id="ctaForm">
+        <label for="fName">Name</label>
+        <input id="fName" type="text" required>
+        <label for="fEmail">Email</label>
+        <input id="fEmail" type="email" required>
+        ${isSample
+          ? `<label for="fMsg">Company / intended use (optional)</label><textarea id="fMsg" rows="3"></textarea>`
+          : `<label for="fQty">Quantity (250g bags)</label><input id="fQty" type="number" min="1" value="1" required>`
+        }
+        <div class="modal-actions">
+          <button type="button" class="modal-close" id="modalCancel">Cancel</button>
+          <button type="submit" class="cta-primary" style="margin-bottom:0;">${isSample ? 'Send request' : 'Confirm order'}</button>
+        </div>
+      </form>
+    `;
+    document.getElementById('modalCancel').addEventListener('click', closeModal);
+    document.getElementById('ctaForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('fName').value;
+      const email = document.getElementById('fEmail').value;
+      const extraEl = document.getElementById('fMsg') || document.getElementById('fQty');
+      const extra = extraEl ? extraEl.value : '';
+      try {
+        await fetch(API_BASE + '/public/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            email,
+            subject: (isSample ? 'Sample request — ' : 'Origin order — ') + o.name,
+            message: extra ? (isSample ? 'Company / intended use: ' : 'Qty (250g bags): ') + extra : '-',
+          }),
+        });
+      } catch(err){ console.warn('Pesan tidak tersimpan.', err); }
+      renderSuccess(isSample);
+    });
+  }
+
+  function renderSuccess(isSample){
+    box.innerHTML = `
+      <div class="modal-success">
+        <div class="check">✓</div>
+        <h3>${isSample ? 'Request received' : 'Order received'}</h3>
+        <p>${isSample
+          ? `Thanks — we\u2019ll be in touch about your ${o.name} sample shortly.`
+          : `Thanks — a confirmation for your ${o.name} order will be sent to your email.`}</p>
+        <div class="modal-actions" style="margin-top:1.4rem;">
+          <button class="cta-secondary" id="modalDone">Done</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('modalDone').addEventListener('click', closeModal);
+  }
+
+  function openModal(kind){
+    renderForm(kind);
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('buyNowBtn').addEventListener('click', () => openModal('buy'));
+  document.getElementById('sampleBtn').addEventListener('click', () => openModal('sample'));
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
+
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

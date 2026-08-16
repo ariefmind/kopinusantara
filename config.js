@@ -1,0 +1,1 @@
+window.ARSA_API_BASE = window.ARSA_API_BASE || 'http://localhost:1337/api';

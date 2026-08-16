@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARSA — Contact Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #17110B; --bg-panel: #1F1710; --text: #EEE4D3; --text-dim: #A99A81;
+    --clay: #B8542A; --moss: #6E8158; --gold: #D4A017; --line: rgba(238,228,211,0.14);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  ::selection{ background: var(--clay); color: var(--bg); }
+  a{ color: inherit; }
+  button{ font: inherit; }
+
+  .caption{
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--text-dim);
+  }
+
+  .topnav{
+    position: sticky; top: 0; z-index: 40;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.6rem 2.4rem;
+    background: rgba(23,17,11,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topnav .mark{ font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.15rem; }
+  .nav-links{ display: flex; align-items: center; gap: 1.8rem; }
+  .nav-links a{
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none; color: var(--text-dim);
+    transition: color 0.25s ease;
+  }
+  .nav-links a:hover, .nav-links a.active{ color: var(--text); }
+  .nav-links a.active{ border-bottom: 1px solid var(--clay); padding-bottom: 3px; }
+  @media (max-width: 760px){ .nav-links{ display: none; } }
+
+  .contact-hero{
+    position: relative;
+    padding: 7rem 8vw 5rem;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    background-image:
+      linear-gradient(90deg, rgba(23,17,11,0.95) 0%, rgba(23,17,11,0.78) 35%, rgba(23,17,11,0.38) 68%, rgba(23,17,11,0.6) 100%),
+      linear-gradient(0deg, rgba(23,17,11,0.88) 0%, rgba(23,17,11,0.12) 40%, rgba(23,17,11,0.22) 100%),
+      url('images/contact-hero.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+  }
+  .contact-hero::before{
+    content:''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 55% 60% at 85% 10%, rgba(184,84,42,0.12), transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow{ display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.2rem; }
+  .hero-eyebrow::before{ content:''; width: 26px; height: 1px; background: var(--clay); }
+  h1.page-title{
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(2.8rem, 7vw, 5rem); line-height: 1.02; max-width: 14ch;
+  }
+  h1.page-title em{ font-style: italic; font-weight: 400; color: var(--clay); }
+  .hero-lede{ max-width: 56ch; margin-top: 1.4rem; font-size: 1.05rem; line-height: 1.7; color: var(--text-dim); }
+
+  /* ---------- LAYOUT ---------- */
+  .contact-body{
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 4rem;
+    padding: 4rem 8vw 7rem;
+    align-items: start;
+  }
+
+  /* ---------- FORM ---------- */
+  .contact-form{
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 2.2rem;
+    background: var(--bg-panel);
+  }
+  .form-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  .contact-form label{
+    display: block;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.45rem;
+  }
+  .contact-form input, .contact-form select, .contact-form textarea{
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.8rem 0.95rem;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.94rem;
+    margin-bottom: 1.3rem;
+    resize: vertical;
+  }
+  .contact-form select{ appearance: none; cursor: pointer; }
+  .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus{
+    outline: 2px solid var(--gold); outline-offset: 1px;
+  }
+  .submit-btn{
+    width: 100%;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--clay);
+    background: var(--clay);
+    color: #17110B;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s ease;
+  }
+  .submit-btn:hover{ background: #cc5f30; }
+  .submit-btn:focus-visible{ outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .form-success{ text-align: left; padding: 1.2rem 0; }
+  .form-success .check{ font-size: 2rem; color: var(--gold); margin-bottom: 0.9rem; }
+  .form-success h3{ font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 1.5rem; margin-bottom: 0.6rem; }
+  .form-success p{ color: var(--text-dim); line-height: 1.65; font-size: 0.94rem; }
+
+  /* ---------- INFO SIDEBAR ---------- */
+  .info-panel{ display: flex; flex-direction: column; gap: 1.8rem; }
+  .info-block{ border-bottom: 1px solid var(--line); padding-bottom: 1.6rem; }
+  .info-block .label{
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.5rem; display: block;
+  }
+  .info-block .val{ font-size: 1rem; line-height: 1.6; }
+  .info-block .val a{ color: var(--gold); text-decoration: none; border-bottom: 1px solid transparent; }
+  .info-block .val a:hover{ border-color: var(--gold); }
+
+  @media (max-width: 900px){
+    .contact-body{ grid-template-columns: 1fr; }
+    .form-row{ grid-template-columns: 1fr; }
+  }
+
+  .site-footer{
+    border-top: 1px solid var(--line);
+    padding: 3.2rem 8vw 2.4rem;
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.6rem; align-items: center;
+  }
+  .site-footer .mark{ font-family: 'Fraunces', serif; font-weight: 600; font-size: 1rem; }
+  .site-footer .foot-links{ display: flex; gap: 1.6rem; flex-wrap: wrap; }
+  .site-footer .foot-links a{
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none; color: var(--text-dim);
+    transition: color 0.25s ease;
+  }
+  .site-footer .foot-links a:hover{ color: var(--text); }
+  .site-footer .foot-note{
+    width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    color: var(--text-dim); opacity: 0.6; margin-top: 0.4rem;
+  }
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" style="display:flex;align-items:center;gap:0.65rem;line-height:0;"><img src="images/logo-arsa.png" alt="ARSA — Island Brew Culture" style="height:40px;width:auto;"><span class="mark">ARSA</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="active">Contact</a>
+    <a href="shipping.html">Shipping &amp; Export</a>
+    <a href="retail.html" style="color: var(--gold);">Shop</a>
+  </div>
+  <span class="caption">05°S · 121°E</span>
+</nav>
+
+<section class="contact-hero">
+  <div class="hero-eyebrow caption" id="contactEyebrow">Contact</div>
+  <h1 class="page-title" id="contactTitle">Let's talk <em>coffee</em>.</h1>
+  <p class="hero-lede" id="contactLede">Whether you're a roaster looking for a new single-origin lot, an importer exploring a first shipment, or just curious about a specific region — reach out and we'll get back to you within two business days.</p>
+</section>
+
+<div class="contact-body">
+  <div class="contact-form" id="formWrap">
+    <form id="contactForm">
+      <div class="form-row">
+        <div>
+          <label for="cName">Name</label>
+          <input id="cName" type="text" required>
+        </div>
+        <div>
+          <label for="cCompany">Company (optional)</label>
+          <input id="cCompany" type="text">
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="cEmail">Email</label>
+          <input id="cEmail" type="email" required>
+        </div>
+        <div>
+          <label for="cSubject">Inquiry type</label>
+          <select id="cSubject">
+            <option>Wholesale / bulk order</option>
+            <option>Sample request</option>
+            <option>Export &amp; logistics question</option>
+            <option>Partnership / media</option>
+            <option>General question</option>
+          </select>
+        </div>
+      </div>
+      <label for="cMessage">Message</label>
+      <textarea id="cMessage" rows="5" required placeholder="Tell us what you're looking for — origin, volume, timeline, or anything else."></textarea>
+      <button type="submit" class="submit-btn">Send message</button>
+    </form>
+  </div>
+
+  <aside class="info-panel">
+    <div class="info-block" id="infoOffice">
+      <span class="label">Export office</span>
+      <div class="val">Jl. Kopi Nusantara No. 12<br>South Jakarta, Indonesia 12190</div>
+    </div>
+    <div class="info-block" id="infoEmail">
+      <span class="label">Email</span>
+      <div class="val"><a href="mailto:hello@arsacoffee.com">hello@arsacoffee.com</a></div>
+    </div>
+    <div class="info-block" id="infoPhone">
+      <span class="label">Phone / WhatsApp</span>
+      <div class="val"><a href="tel:+622112345678">+62 21 1234 5678</a></div>
+    </div>
+    <div class="info-block" id="infoResponse">
+      <span class="label">Response time</span>
+      <div class="val">Within 2 business days, WIB (UTC+7)</div>
+    </div>
+    <div class="info-block" style="border-bottom:none;" id="infoWholesale">
+      <span class="label">For wholesale buyers</span>
+      <div class="val">See our <a href="shipping.html" style="border-bottom:1px solid var(--gold);">shipping &amp; export terms</a> for MOQ, Incoterms, and lead times before reaching out.</div>
+    </div>
+  </aside>
+</div>
+
+<footer class="site-footer">
+  <a href="index.html" style="display:flex;align-items:center;gap:0.55rem;line-height:0;"><img src="images/logo-arsa.png" alt="ARSA — Island Brew Culture" style="height:28px;width:auto;"><span class="mark">ARSA</span></a>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="shipping.html">Shipping &amp; Export</a>
+    <a href="retail.html" style="color: var(--gold);">Shop</a>
+  </div>
+  <span class="foot-note">© 2026 ARSA Coffee. Sourced from Sumatra, Sulawesi, Bali, Flores, Java &amp; Papua.</span>
+</footer>
+
+<script>
+  const CONTACT_API_BASE = (window.ARSA_API_BASE || 'http://localhost:1337/api').replace(/\/+$/, ''); // set window.ARSA_API_BASE utk ganti URL saat hosting
+
+  (async function loadContact(){
+    try {
+      const res = await fetch(CONTACT_API_BASE + '/public/contact-page');
+      const d = res.ok ? await res.json() : null;
+      if(!d) return;
+      const eyebrow = document.getElementById('contactEyebrow');
+      const title = document.getElementById('contactTitle');
+      const lede = document.getElementById('contactLede');
+      if(eyebrow && d.heroEyebrow) eyebrow.textContent = d.heroEyebrow;
+      if(title && d.heroTitle) title.innerHTML = d.heroTitle;
+      if(lede && d.heroSubtitle) lede.textContent = d.heroSubtitle;
+
+      const office = document.getElementById('infoOffice');
+      if(office){
+        const l = office.querySelector('.label'), v = office.querySelector('.val');
+        if(l && d.officeLabel) l.textContent = d.officeLabel;
+        if(v && d.officeAddress) v.innerHTML = d.officeAddress;
+      }
+      const emailB = document.getElementById('infoEmail');
+      if(emailB){
+        const l = emailB.querySelector('.label'), v = emailB.querySelector('.val');
+        if(l && d.emailLabel) l.textContent = d.emailLabel;
+        if(v && d.email) v.innerHTML = `<a href="mailto:${d.email}">${d.email}</a>`;
+      }
+      const phoneB = document.getElementById('infoPhone');
+      if(phoneB){
+        const l = phoneB.querySelector('.label'), v = phoneB.querySelector('.val');
+        if(l && d.phoneLabel) l.textContent = d.phoneLabel;
+        if(v && d.phone) v.innerHTML = `<a href="tel:${d.phone.replace(/[^0-9+]/g, '')}">${d.phone}</a>`;
+      }
+      const respB = document.getElementById('infoResponse');
+      if(respB){
+        const l = respB.querySelector('.label'), v = respB.querySelector('.val');
+        if(l && d.responseLabel) l.textContent = d.responseLabel;
+        if(v && d.response) v.textContent = d.response;
+      }
+      const wholesale = document.getElementById('infoWholesale');
+      if(wholesale){
+        const l = wholesale.querySelector('.label'), v = wholesale.querySelector('.val');
+        if(l && d.wholesaleLabel) l.textContent = d.wholesaleLabel;
+        if(v && d.wholesaleNote) v.innerHTML = d.wholesaleNote;
+      }
+    } catch(e){ console.warn('Kontak gagal dimuat dari API.', e); }
+  })();
+
+  document.getElementById('contactForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const wrap = document.getElementById('formWrap');
+    const name = document.getElementById('cName').value || 'there';
+    const payload = {
+      name: document.getElementById('cName').value,
+      company: document.getElementById('cCompany').value,
+      email: document.getElementById('cEmail').value,
+      subject: document.getElementById('cSubject').value,
+      message: document.getElementById('cMessage').value,
+    };
+    let stored = false;
+    try {
+      const res = await fetch(CONTACT_API_BASE + '/public/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      stored = res.ok;
+    } catch(err){ stored = false; }
+    wrap.innerHTML = stored ? `
+      <div class="form-success">
+        <div class="check">✓</div>
+        <h3>Thanks, ${name.split(' ')[0]}.</h3>
+        <p>Your message has been received and saved in our system. Our team will get back to you within two business days at the email you provided.</p>
+      </div>
+    ` : `
+      <div class="form-success">
+        <div class="check">⚠</div>
+        <h3>Message not saved.</h3>
+        <p>Your message could not be sent to the server (${name}). Please try again, or reach us directly at hello@arsacoffee.com.</p>
+      </div>
+    `;
+  });
+</script>
+</body>
+</html>

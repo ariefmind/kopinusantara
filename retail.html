@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARSA — Belanja Kopi Nusantara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #17110B; --bg-panel: #1F1710; --text: #EEE4D3; --text-dim: #A99A81;
+    --clay: #B8542A; --moss: #6E8158; --gold: #D4A017; --line: rgba(238,228,211,0.14);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  ::selection{ background: var(--clay); color: var(--bg); }
+  a{ color: inherit; }
+  button{ font: inherit; }
+
+  .caption{
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--text-dim);
+  }
+
+  /* ---------- NAV ---------- */
+  .topnav{
+    position: sticky; top: 0; z-index: 50;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.6rem 2.4rem;
+    background: rgba(23,17,11,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topnav .mark{ font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.15rem; }
+  .nav-links{ display: flex; align-items: center; gap: 1.8rem; }
+  .nav-links a{
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none; color: var(--text-dim);
+    transition: color 0.25s ease;
+  }
+  .nav-links a:hover, .nav-links a.active{ color: var(--text); }
+  .nav-links a.active{ border-bottom: 1px solid var(--clay); padding-bottom: 3px; }
+  @media (max-width: 800px){ .nav-links{ display: none; } }
+
+  .cart-btn{
+    display: flex; align-items: center; gap: 0.5rem;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.55rem 1.05rem;
+    color: var(--text);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: border-color 0.25s ease;
+  }
+  .cart-btn:hover{ border-color: var(--gold); }
+  .cart-btn .count{
+    background: var(--gold);
+    color: #17110B;
+    border-radius: 999px;
+    min-width: 18px; height: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 700;
+    padding: 0 4px;
+  }
+
+  /* ---------- HERO ---------- */
+  .shop-hero{
+    position: relative;
+    padding: 5.5rem 8vw 3.5rem;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .shop-hero::before{
+    content:''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 55% 60% at 85% 10%, rgba(184,84,42,0.12), transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow{ display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.1rem; }
+  .hero-eyebrow::before{ content:''; width: 26px; height: 1px; background: var(--clay); }
+  h1.page-title{
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(2.6rem, 6.4vw, 4.6rem); line-height: 1.04; max-width: 16ch;
+  }
+  h1.page-title em{ font-style: italic; font-weight: 400; color: var(--clay); }
+  .hero-lede{ max-width: 56ch; margin-top: 1.3rem; font-size: 1.02rem; line-height: 1.7; color: var(--text-dim); }
+
+  .pay-badges{
+    display: flex; align-items: center; gap: 1rem; margin-top: 1.8rem; flex-wrap: wrap;
+  }
+  .pay-badges span{
+    font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--text-dim);
+    border: 1px solid var(--line); border-radius: 999px; padding: 0.4rem 0.8rem;
+  }
+
+  /* ---------- PRODUCT GRID ---------- */
+  .shop-grid{
+    padding: 3.5rem 8vw 6rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.6rem;
+  }
+  .product-card{
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.3s ease;
+    background: var(--bg-panel);
+  }
+  .product-card:hover{ border-color: var(--moss); }
+  .product-image{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center 15%;
+    border-radius: 10px;
+    margin-bottom: 1.1rem;
+    display: block;
+  }
+  .product-card h3{
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.3rem;
+  }
+  .product-card .p-region{
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text-dim); margin-top: 0.3rem; margin-bottom: 0.9rem;
+  }
+  .product-card .p-note{
+    font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 1.2rem;
+    flex-grow: 1;
+  }
+
+  .size-select{
+    display: flex; gap: 0.5rem; margin-bottom: 1.1rem;
+  }
+  .size-btn{
+    flex: 1; padding: 0.5rem 0; text-align: center;
+    background: transparent; border: 1px solid var(--line); border-radius: 8px;
+    color: var(--text-dim); cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    transition: border-color 0.25s ease, color 0.25s ease;
+  }
+  .size-btn.active, .size-btn:hover{ border-color: var(--gold); color: var(--text); }
+
+  .product-card .p-price{
+    font-family: 'Fraunces', serif; font-size: 1.4rem; margin-bottom: 1rem;
+  }
+
+  .p-actions{ display: flex; gap: 0.6rem; }
+  .p-actions button{
+    flex: 1;
+    padding: 0.75rem 0;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+  .btn-cart{ background: var(--clay); border: 1px solid var(--clay); color: #17110B; }
+  .btn-cart:hover{ background: #cc5f30; }
+  .btn-wa{ background: transparent; border: 1px solid var(--moss); color: var(--moss); }
+  .btn-wa:hover{ background: rgba(110,129,88,0.15); }
+
+  /* ---------- CART DRAWER ---------- */
+  .cart-overlay{
+    position: fixed; inset: 0; z-index: 90;
+    background: rgba(10,7,4,0.6);
+    display: none;
+  }
+  .cart-overlay.is-open{ display: block; }
+  .cart-drawer{
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: 100%; max-width: 420px;
+    background: var(--bg-panel);
+    border-left: 1px solid var(--line);
+    z-index: 95;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.65,0,0.35,1);
+    display: flex; flex-direction: column;
+  }
+  .cart-drawer.is-open{ transform: translateX(0); }
+  .cart-head{
+    padding: 1.6rem 1.8rem;
+    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cart-head h3{ font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 1.3rem; }
+  .cart-close{ background: none; border: none; color: var(--text-dim); font-size: 1.3rem; cursor: pointer; }
+  .cart-items{ flex: 1; overflow-y: auto; padding: 1.2rem 1.8rem; }
+  .cart-empty{ color: var(--text-dim); font-size: 0.9rem; padding: 2rem 0; text-align: center; }
+  .cart-item{
+    display: grid; grid-template-columns: 1fr auto; gap: 0.4rem;
+    padding: 1rem 0; border-bottom: 1px solid var(--line);
+  }
+  .cart-item .ci-name{ font-family: 'Fraunces', serif; font-size: 1rem; }
+  .cart-item .ci-size{ font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; }
+  .cart-item .ci-price{ font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--gold); text-align: right; }
+  .cart-item .ci-qty{
+    display: flex; align-items: center; gap: 0.5rem; margin-top: 0.4rem;
+  }
+  .ci-qty button{
+    width: 22px; height: 22px; border-radius: 6px;
+    border: 1px solid var(--line); background: transparent; color: var(--text);
+    cursor: pointer; font-family: 'JetBrains Mono', monospace;
+  }
+  .ci-remove{
+    grid-column: 1 / -1;
+    justify-self: start;
+    background: none; border: none; color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.05em;
+    text-transform: uppercase; cursor: pointer; margin-top: 0.5rem;
+  }
+  .ci-remove:hover{ color: var(--clay); }
+
+  .cart-footer{ padding: 1.6rem 1.8rem; border-top: 1px solid var(--line); }
+  .cart-subtotal{
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 1.2rem;
+  }
+  .cart-subtotal .label{ font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; text-transform: uppercase; color: var(--text-dim); }
+  .cart-subtotal .val{ font-family: 'Fraunces', serif; font-size: 1.4rem; color: var(--gold); }
+
+  .checkout-btn{
+    width: 100%; padding: 0.95rem; border-radius: 10px; margin-bottom: 0.7rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase;
+    cursor: pointer; border: 1px solid transparent;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+  .checkout-duitku{ background: var(--clay); color: #17110B; }
+  .checkout-duitku:hover{ background: #cc5f30; }
+  .checkout-wa{ background: transparent; border-color: var(--moss); color: var(--moss); }
+  .checkout-wa:hover{ background: rgba(110,129,88,0.15); }
+
+  /* ---------- CHECKOUT MODAL ---------- */
+  .modal-overlay{
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(10,7,4,0.72);
+    backdrop-filter: blur(3px);
+    display: none; align-items: center; justify-content: center; padding: 1.5rem;
+  }
+  .modal-overlay.is-open{ display: flex; }
+  .modal-box{
+    width: 100%; max-width: 440px;
+    background: var(--bg-panel); border: 1px solid var(--line); border-radius: 14px; padding: 2rem;
+  }
+  .modal-box h3{ font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .modal-box .modal-sub{ color: var(--text-dim); font-size: 0.86rem; margin-bottom: 1.5rem; line-height: 1.55; }
+  .modal-box label{
+    display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.4rem;
+  }
+  .modal-box input, .modal-box textarea{
+    width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+    padding: 0.7rem 0.85rem; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.9rem;
+    margin-bottom: 1rem; resize: vertical;
+  }
+  .modal-box input:focus, .modal-box textarea:focus{ outline: 2px solid var(--gold); outline-offset: 1px; }
+  .form-row2{ display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .modal-actions{ display: flex; gap: 0.7rem; margin-top: 0.5rem; }
+  .modal-actions button{ flex: 1; }
+  .modal-cancel{
+    background: transparent; border: 1px solid var(--line); color: var(--text-dim);
+    border-radius: 10px; padding: 0.9rem; cursor: pointer;
+  }
+  .modal-submit{
+    background: var(--clay); border: 1px solid var(--clay); color: #17110B;
+    border-radius: 10px; padding: 0.9rem; cursor: pointer; font-weight: 500;
+  }
+  .modal-note{
+    margin-top: 1rem; padding: 0.9rem; border-radius: 8px;
+    background: rgba(212,160,23,0.08); border: 1px solid rgba(212,160,23,0.25);
+    font-size: 0.78rem; color: var(--text-dim); line-height: 1.55;
+  }
+
+  .site-footer{
+    border-top: 1px solid var(--line);
+    padding: 3.2rem 8vw 2.4rem;
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.6rem; align-items: center;
+  }
+  .site-footer .mark{ font-family: 'Fraunces', serif; font-weight: 600; font-size: 1rem; }
+  .site-footer .foot-links{ display: flex; gap: 1.6rem; flex-wrap: wrap; }
+  .site-footer .foot-links a{
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none; color: var(--text-dim);
+    transition: color 0.25s ease;
+  }
+  .site-footer .foot-links a:hover{ color: var(--text); }
+  .site-footer .foot-note{
+    width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    color: var(--text-dim); opacity: 0.6; margin-top: 0.4rem;
+  }
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" style="display:flex;align-items:center;gap:0.65rem;line-height:0;"><img src="images/logo-arsa.png" alt="ARSA — Island Brew Culture" style="height:40px;width:auto;"><span class="mark">ARSA</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="shipping.html">Shipping &amp; Export</a>
+    <a href="retail.html" class="active" style="color: var(--gold);">Shop</a>
+  </div>
+  <button class="cart-btn" id="cartBtn">
+    🛒 Keranjang <span class="count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<section class="shop-hero">
+  <div class="hero-eyebrow caption">Belanja Retail</div>
+  <h1 class="page-title">Kopi nusantara, langsung ke <em>rumahmu</em>.</h1>
+  <p class="hero-lede">Delapan origin pilihan, dikemas dalam ukuran rumahan — mulai dari 100g. Bayar dengan metode favoritmu atau pesan langsung lewat WhatsApp.</p>
+  <div class="pay-badges">
+    <span>QRIS</span>
+    <span>Transfer Bank</span>
+    <span>E-Wallet</span>
+    <span>Kartu Kredit</span>
+    <span>via Duitku</span>
+  </div>
+</section>
+
+<div class="shop-grid" id="productGrid"></div>
+
+<footer class="site-footer">
+  <a href="index.html" style="display:flex;align-items:center;gap:0.55rem;line-height:0;"><img src="images/logo-arsa.png" alt="ARSA — Island Brew Culture" style="height:28px;width:auto;"><span class="mark">ARSA</span></a>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="shipping.html">Shipping &amp; Export</a>
+    <a href="retail.html">Shop</a>
+  </div>
+  <span class="foot-note">© 2026 ARSA Coffee. Untuk pemesanan grosir/ekspor, lihat halaman Shipping &amp; Export.</span>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Keranjang Kamu</h3>
+    <button class="cart-close" id="cartClose">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-subtotal">
+      <span class="label">Subtotal</span>
+      <span class="val" id="cartSubtotal">Rp0</span>
+    </div>
+    <button class="checkout-btn checkout-duitku" id="checkoutDuitku">Bayar dengan Duitku →</button>
+    <button class="checkout-btn checkout-wa" id="checkoutWa">Pesan via WhatsApp</button>
+  </div>
+</aside>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<script>
+(function(){
+
+  // ---------- PRODUCTS (retail, IDR) ----------
+  const FALLBACK_PRODUCTS = [
+    { slug:'gayo', name:'Gayo', region:'Aceh, Sumatra', note:'Herbal, rempah, body tebal.', image:'product-gayo.jpg', prices:{'100g':45000,'250g':95000,'500g':175000} },
+    { slug:'toraja', name:'Toraja', region:'Sulawesi Selatan', note:'Manis, karamel, low acid.', image:'product-toraja.jpg', prices:{'100g':48000,'250g':105000,'500g':195000} },
+    { slug:'kintamani', name:'Kintamani', region:'Bali', note:'Citrus, cerah, floral.', image:'product-kintamani.jpg', prices:{'100g':46000,'250g':98000,'500g':180000} },
+    { slug:'bajawa', name:'Bajawa', region:'Flores', note:'Cokelat, kacang, manis lembut.', image:'product-bajawa.jpg', prices:{'100g':46000,'250g':98000,'500g':180000} },
+    { slug:'mandailing', name:'Mandailing', region:'Sumatra Utara', note:'Cokelat gelap, cedar, body berat.', image:'product-mandailing.jpg', prices:{'100g':42000,'250g':88000,'500g':165000} },
+    { slug:'lintong', name:'Lintong', region:'Danau Toba, Sumatra', note:'Woody, herbal, finish syrupy.', image:'product-lintong.jpg', prices:{'100g':42000,'250g':88000,'500g':165000} },
+    { slug:'java-preanger', name:'Java Preanger', region:'Jawa Barat', note:'Nutty, mellow, finish bersih.', image:'product-java-preanger.jpg', prices:{'100g':40000,'250g':82000,'500g':155000} },
+    { slug:'wamena', name:'Wamena', region:'Lembah Baliem, Papua', note:'Fruity, wine-like, acidity lembut.', image:'product-wamena.jpg', prices:{'100g':52000,'250g':115000,'500g':215000} },
+];
+
+  // Data asli diambil dari Strapi (backend). FALLBACK hanya dipakai kalau API mati.
+  let PRODUCTS = FALLBACK_PRODUCTS.slice();
+  const API_BASE = (window.ARSA_API_BASE || 'http://localhost:1337/api').replace(/\/+$/, ''); // set window.ARSA_API_BASE utk ganti URL saat hosting
+  const imgUrl = (p) => (p && !/^(https?:|data:|\/|\/\/)/.test(p) ? 'images/' + p : p);
+
+  async function loadProducts(){
+    try {
+      const res = await fetch(API_BASE + '/public/products');
+      if(res.ok){
+        const data = await res.json();
+        if(Array.isArray(data) && data.length){ PRODUCTS = data; }
+      }
+    } catch(e){ console.warn('API tidak tersedia, pakai data cadangan.', e); }
+    renderGrid();
+    renderCart();
+  }
+
+  const WA_NUMBER = '622112345678'; // ganti dengan nomor WhatsApp bisnis asli
+  const SIZES = ['100g','250g','500g'];
+  const selectedSize = {}; // slug -> size
+
+  function formatIDR(n){
+    return 'Rp' + n.toLocaleString('id-ID');
+  }
+
+  // ---------- RENDER PRODUCT GRID ----------
+  const grid = document.getElementById('productGrid');
+  function renderGrid(){
+    grid.innerHTML = '';
+    PRODUCTS.forEach(p => {
+      selectedSize[p.slug] = '250g';
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img class="product-image" src="${imgUrl(p.image)}" alt="Kemasan kopi ARSA ${p.name}, ${p.region}" loading="lazy">
+        <h3>${p.name}</h3>
+        <div class="p-region">${p.region}</div>
+        <p class="p-note">${p.note}</p>
+        <div class="size-select">
+          ${SIZES.map(s => `<button class="size-btn ${s==='250g'?'active':''}" data-slug="${p.slug}" data-size="${s}">${s}</button>`).join('')}
+        </div>
+        <div class="p-price" data-price-slug="${p.slug}">${formatIDR(p.prices['250g'])}</div>
+        <div class="p-actions">
+          <button class="btn-cart" data-slug="${p.slug}">+ Keranjang</button>
+          <button class="btn-wa" data-slug="${p.slug}">WhatsApp</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // size selection
+  grid.addEventListener('click', (e) => {
+    const sizeBtn = e.target.closest('.size-btn');
+    if(sizeBtn){
+      const slug = sizeBtn.dataset.slug;
+      const size = sizeBtn.dataset.size;
+      selectedSize[slug] = size;
+      grid.querySelectorAll(`.size-btn[data-slug="${slug}"]`).forEach(b => b.classList.toggle('active', b.dataset.size === size));
+      const product = PRODUCTS.find(p => p.slug === slug);
+      grid.querySelector(`[data-price-slug="${slug}"]`).textContent = formatIDR(product.prices[size]);
+      return;
+    }
+    const cartBtn = e.target.closest('.btn-cart');
+    if(cartBtn){
+      addToCart(cartBtn.dataset.slug, selectedSize[cartBtn.dataset.slug]);
+      return;
+    }
+    const waBtn = e.target.closest('.btn-wa');
+    if(waBtn){
+      orderSingleViaWhatsApp(waBtn.dataset.slug, selectedSize[waBtn.dataset.slug]);
+      return;
+    }
+  });
+
+  // ---------- CART (persisted in localStorage) ----------
+  let cart = JSON.parse(localStorage.getItem('arsa_cart') || '[]');
+
+  function saveCart(){
+    localStorage.setItem('arsa_cart', JSON.stringify(cart));
+    renderCart();
+  }
+
+  function addToCart(slug, size){
+    const p = PRODUCTS.find(p => p.slug === slug);
+    const existing = cart.find(i => i.slug === slug && i.size === size);
+    const inCart = existing ? existing.qty : 0;
+    if(p && p.stock && p.stock[size] != null && inCart >= p.stock[size]){
+      alert(`Stok ${p.name} (${size}) tidak cukup. Tersedia ${p.stock[size]}.`);
+      return;
+    }
+    if(existing){ existing.qty += 1; }
+    else{ cart.push({ slug, size, qty: 1 }); }
+    saveCart();
+    openCart();
+  }
+
+  function changeQty(slug, size, delta){
+    const item = cart.find(i => i.slug === slug && i.size === size);
+    if(!item) return;
+    item.qty += delta;
+    if(item.qty <= 0){ cart = cart.filter(i => !(i.slug === slug && i.size === size)); }
+    saveCart();
+  }
+
+  function removeItem(slug, size){
+    cart = cart.filter(i => !(i.slug === slug && i.size === size));
+    saveCart();
+  }
+
+  function cartSubtotal(){
+    return cart.reduce((sum, i) => {
+      const p = PRODUCTS.find(p => p.slug === i.slug);
+      return sum + (p.prices[i.size] * i.qty);
+    }, 0);
+  }
+
+  function renderCart(){
+    const itemsEl = document.getElementById('cartItems');
+    const countEl = document.getElementById('cartCount');
+    const subtotalEl = document.getElementById('cartSubtotal');
+    const totalQty = cart.reduce((s,i) => s + i.qty, 0);
+    countEl.textContent = totalQty;
+
+    if(cart.length === 0){
+      itemsEl.innerHTML = '<div class="cart-empty">Keranjang masih kosong. Yuk pilih origin favoritmu.</div>';
+    } else {
+      itemsEl.innerHTML = cart.map(i => {
+        const p = PRODUCTS.find(p => p.slug === i.slug);
+        return `
+          <div class="cart-item">
+            <div>
+              <div class="ci-name">${p.name}</div>
+              <div class="ci-size">${i.size}</div>
+              <div class="ci-qty">
+                <button data-act="dec" data-slug="${i.slug}" data-size="${i.size}">–</button>
+                <span>${i.qty}</span>
+                <button data-act="inc" data-slug="${i.slug}" data-size="${i.size}">+</button>
+              </div>
+            </div>
+            <div class="ci-price">${formatIDR(p.prices[i.size] * i.qty)}</div>
+            <button class="ci-remove" data-act="remove" data-slug="${i.slug}" data-size="${i.size}">Hapus</button>
+          </div>
+        `;
+      }).join('');
+    }
+    subtotalEl.textContent = formatIDR(cartSubtotal());
+  }
+
+  document.getElementById('cartItems').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-act]');
+    if(!btn) return;
+    const { act, slug, size } = btn.dataset;
+    if(act === 'inc') changeQty(slug, size, 1);
+    if(act === 'dec') changeQty(slug, size, -1);
+    if(act === 'remove') removeItem(slug, size);
+  });
+
+  // ---------- CART DRAWER OPEN/CLOSE ----------
+  const cartOverlay = document.getElementById('cartOverlay');
+  const cartDrawer = document.getElementById('cartDrawer');
+  function openCart(){ cartOverlay.classList.add('is-open'); cartDrawer.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+  function closeCart(){ cartOverlay.classList.remove('is-open'); cartDrawer.classList.remove('is-open'); document.body.style.overflow = ''; }
+  document.getElementById('cartBtn').addEventListener('click', openCart);
+  document.getElementById('cartClose').addEventListener('click', closeCart);
+  cartOverlay.addEventListener('click', closeCart);
+
+  // ---------- WHATSAPP ORDERING ----------
+  function buildCartMessage(){
+    let lines = ['Halo ARSA, saya mau pesan:', ''];
+    cart.forEach(i => {
+      const p = PRODUCTS.find(p => p.slug === i.slug);
+      lines.push(`- ${p.name} (${i.size}) x${i.qty} — ${formatIDR(p.prices[i.size]*i.qty)}`);
+    });
+    lines.push('', `Total: ${formatIDR(cartSubtotal())}`, '', 'Mohon info langkah selanjutnya. Terima kasih!');
+    return lines.join('\n');
+  }
+
+  function orderSingleViaWhatsApp(slug, size){
+    const p = PRODUCTS.find(p => p.slug === slug);
+    const msg = `Halo ARSA, saya mau pesan:\n\n- ${p.name} (${size}) — ${formatIDR(p.prices[size])}\n\nMohon info langkah selanjutnya. Terima kasih!`;
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  document.getElementById('checkoutWa').addEventListener('click', () => {
+    if(cart.length === 0) return;
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(buildCartMessage())}`, '_blank');
+  });
+
+  // ---------- CHECKOUT MODAL (Duitku placeholder) ----------
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalBox = document.getElementById('modalBox');
+
+  function renderCheckoutForm(){
+    modalBox.innerHTML = `
+      <h3>Checkout</h3>
+      <p class="modal-sub">Total belanja: <strong style="color:var(--gold);">${formatIDR(cartSubtotal())}</strong>. Isi data pengiriman untuk melanjutkan ke pembayaran Duitku.</p>
+      <form id="checkoutForm">
+        <label for="ckName">Nama Penerima</label>
+        <input id="ckName" type="text" required>
+        <div class="form-row2">
+          <div>
+            <label for="ckPhone">No. HP</label>
+            <input id="ckPhone" type="tel" required>
+          </div>
+          <div>
+            <label for="ckEmail">Email</label>
+            <input id="ckEmail" type="email" required>
+          </div>
+        </div>
+        <label for="ckAddress">Alamat Lengkap</label>
+        <textarea id="ckAddress" rows="3" required placeholder="Nama jalan, nomor, kelurahan, kecamatan, kota, kode pos"></textarea>
+        <div class="modal-actions">
+          <button type="button" class="modal-cancel" id="modalCancel">Batal</button>
+          <button type="submit" class="modal-submit">Lanjut ke Pembayaran →</button>
+        </div>
+      </form>
+      <div class="modal-note">
+        Pesananmu akan dicatat otomatis ke sistem (database), stok terkini langsung diperbarui. Pembayaran tetap dikirim manual — tim kami akan menghubungimu untuk konfirmasi.
+      </div>
+    `;
+    document.getElementById('modalCancel').addEventListener('click', closeModal);
+    document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitSale();
+    });
+  }
+
+  async function submitSale(){
+    const payload = {
+      customerName: document.getElementById('ckName').value,
+      customerPhone: document.getElementById('ckPhone').value,
+      customerEmail: document.getElementById('ckEmail').value,
+      customerAddress: document.getElementById('ckAddress').value,
+      items: cart.map(i => ({ slug: i.slug, size: i.size, qty: i.qty })),
+    };
+    renderOrderResult('Menyimpan pesanan…', 'Tunggu sebentar, kami mencatat pesananmu ke database.');
+    try {
+      const res = await fetch(API_BASE + '/public/sales', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if(res.ok && data.orderRef){
+        cart = [];
+        saveCart();
+        closeCart();
+        renderOrderResult('Pesanan diterima ✓', `Nomor pesanan kamu: <strong style="color:var(--gold);">${data.orderRef}</strong>. Total <strong style="color:var(--gold);">${formatIDR(data.total)}</strong>. Kami akan menghubungimu untuk konfirmasi pembayaran. Stok produk sudah diperbarui otomatis.`, true);
+        return;
+      }
+      const msg = (data && data.error && data.error.message) || 'Terjadi kesalahan.';
+      renderOrderResult('Pesanan gagal', msg + ' Kamu bisa coba lagi atau selesaikan lewat WhatsApp.');
+    } catch(e){
+      renderOrderResult('Pesanan gagal 🔧', 'Koneksi ke server gagal. Kamu bisa coba lagi, atau selesaikan lewat WhatsApp.');
+    }
+  }
+
+  function renderOrderResult(title, sub, done){
+    modalBox.innerHTML = `
+      <h3>${title}</h3>
+      <p class="modal-sub">${sub}</p>
+      <div class="modal-actions">
+        <button class="modal-cancel" id="modalOk">${done ? 'Tutup' : 'Kembali'}</button>
+      </div>
+    `;
+    document.getElementById('modalOk').addEventListener('click', () => {
+      closeModal();
+      if(!done && cart.length > 0) renderCheckoutForm();
+    });
+  }
+
+  function openModal(){
+    if(cart.length === 0) return;
+    renderCheckoutForm();
+    modalOverlay.classList.add('is-open');
+  }
+  function closeModal(){ modalOverlay.classList.remove('is-open'); }
+
+  document.getElementById('checkoutDuitku').addEventListener('click', openModal);
+  modalOverlay.addEventListener('click', (e) => { if(e.target === modalOverlay) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape'){ closeModal(); closeCart(); }
+  });
+
+  loadProducts();
+})();
+</script>
+</body>
+</html>

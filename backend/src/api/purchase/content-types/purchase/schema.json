@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "purchases",
+  "info": {
+    "singularName": "purchase",
+    "pluralName": "purchases",
+    "displayName": "Purchase",
+    "description": "Pembelian stok dari supplier / koperasi"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "productName": {
+      "type": "string",
+      "required": true
+    },
+    "supplier": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "integer"
+    },
+    "unit": {
+      "type": "string",
+      "default": "kg"
+    },
+    "cost": {
+      "type": "decimal"
+    },
+    "date": {
+      "type": "date"
+    },
+    "notes": {
+      "type": "text"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "ordered",
+        "received",
+        "paid",
+        "cancelled"
+      ],
+      "default": "ordered"
+    }
+  }
+}

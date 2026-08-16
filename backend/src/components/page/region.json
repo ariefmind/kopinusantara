@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_page_regions",
+  "info": {
+    "displayName": "Region",
+    "description": "Satu origin kopi"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "island": {
+      "type": "string"
+    }
+  }
+}

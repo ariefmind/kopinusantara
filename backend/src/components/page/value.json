@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_page_values",
+  "info": {
+    "displayName": "Value",
+    "description": "Satu kartu nilai"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
+      "type": "text"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_page_milestones",
+  "info": {
+    "displayName": "Milestone",
+    "description": "Satu tonggak perjalanan"
+  },
+  "options": {},
+  "attributes": {
+    "year": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "text"
+    }
+  }
+}

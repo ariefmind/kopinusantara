@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_page_faqs",
+  "info": {
+    "displayName": "FAQ",
+    "description": "Satu pertanyaan umum"
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "string",
+      "required": true
+    },
+    "answer": {
+      "type": "text"
+    }
+  }
+}

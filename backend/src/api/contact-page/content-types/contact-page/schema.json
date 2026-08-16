@@ -1,0 +1,67 @@
+{
+  "kind": "singleType",
+  "collectionName": "contact_pages",
+  "info": {
+    "singularName": "contact-page",
+    "pluralName": "contact-pages",
+    "displayName": "Contact Page",
+    "description": "Konten halaman Contact"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroEyebrow": {
+      "type": "string",
+      "default": "Contact"
+    },
+    "heroTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "heroSubtitle": {
+      "type": "text"
+    },
+    "officeLabel": {
+      "type": "string",
+      "default": "Export office"
+    },
+    "officeAddress": {
+      "type": "text",
+      "default": "Jl. Kopi Nusantara No. 12<br>South Jakarta, Indonesia 12190"
+    },
+    "emailLabel": {
+      "type": "string",
+      "default": "Email"
+    },
+    "email": {
+      "type": "string",
+      "default": "hello@arsacoffee.com"
+    },
+    "phoneLabel": {
+      "type": "string",
+      "default": "Phone / WhatsApp"
+    },
+    "phone": {
+      "type": "string",
+      "default": "+62 21 1234 5678"
+    },
+    "responseLabel": {
+      "type": "string",
+      "default": "Response time"
+    },
+    "response": {
+      "type": "string",
+      "default": "Within 2 business days, WIB (UTC+7)"
+    },
+    "wholesaleLabel": {
+      "type": "string",
+      "default": "For wholesale buyers"
+    },
+    "wholesaleNote": {
+      "type": "text",
+      "default": "See our <a href=\"shipping.html\">shipping &amp; export terms</a> for MOQ, Incoterms, and lead times before reaching out."
+    }
+  }
+}

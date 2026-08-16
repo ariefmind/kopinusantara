@@ -1,0 +1,51 @@
+{
+  "kind": "singleType",
+  "collectionName": "home_pages",
+  "info": {
+    "singularName": "home-page",
+    "pluralName": "home-pages",
+    "displayName": "Home Page",
+    "description": "Konten halaman utama"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroEyebrow": {
+      "type": "string",
+      "default": "Indonesian Coffee"
+    },
+    "heroTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "heroSubtitle": {
+      "type": "text"
+    },
+    "menuHeading": {
+      "type": "string",
+      "default": "Eight regions, one archipelago"
+    },
+    "menuCaption": {
+      "type": "string",
+      "default": "Tap a region for tasting notes"
+    },
+    "closingEyebrow": {
+      "type": "string",
+      "default": "End of the journey"
+    },
+    "closingTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "ctaText": {
+      "type": "string",
+      "default": "Explore the ARSA collection →"
+    },
+    "ctaHref": {
+      "type": "string",
+      "default": "retail.html"
+    }
+  }
+}

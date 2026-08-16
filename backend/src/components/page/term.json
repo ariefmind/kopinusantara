@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_page_terms",
+  "info": {
+    "displayName": "Term",
+    "description": "Satu baris ketentuan dagang"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "val": {
+      "type": "string"
+    },
+    "note": {
+      "type": "text"
+    }
+  }
+}

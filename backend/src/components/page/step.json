@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_page_steps",
+  "info": {
+    "displayName": "Step",
+    "description": "Satu langkah proses pemesanan"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
+      "type": "text"
+    }
+  }
+}

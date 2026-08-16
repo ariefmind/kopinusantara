@@ -1,0 +1,70 @@
+{
+  "kind": "collectionType",
+  "collectionName": "origins",
+  "info": {
+    "singularName": "origin",
+    "pluralName": "origins",
+    "displayName": "Origin",
+    "description": "Region / origin kopi ARSA"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "region": {
+      "type": "string"
+    },
+    "menuRegion": {
+      "type": "string"
+    },
+    "elevation": {
+      "type": "string"
+    },
+    "coords": {
+      "type": "string"
+    },
+    "process": {
+      "type": "string"
+    },
+    "harvest": {
+      "type": "string"
+    },
+    "character": {
+      "type": "string"
+    },
+    "shortNote": {
+      "type": "text"
+    },
+    "panelNote": {
+      "type": "text"
+    },
+    "lede": {
+      "type": "text"
+    },
+    "story": {
+      "type": "text"
+    },
+    "flavor": {
+      "type": "json"
+    },
+    "price": {
+      "type": "string"
+    },
+    "glyph": {
+      "type": "text"
+    },
+    "panelId": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "kind": "singleType",
+  "collectionName": "about_pages",
+  "info": {
+    "singularName": "about-page",
+    "pluralName": "about-pages",
+    "displayName": "About Page",
+    "description": "Konten halaman About Us"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroEyebrow": {
+      "type": "string",
+      "default": "About ARSA"
+    },
+    "heroTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "heroSubtitle": {
+      "type": "text"
+    },
+    "nameHeading": {
+      "type": "string",
+      "default": "The name"
+    },
+    "nameBody1": {
+      "type": "text"
+    },
+    "nameBody2": {
+      "type": "text"
+    },
+    "storyHeading": {
+      "type": "string",
+      "default": "How it started"
+    },
+    "storyBody1": {
+      "type": "text"
+    },
+    "storyBody2": {
+      "type": "text"
+    },
+    "valuesHeading": {
+      "type": "string",
+      "default": "What we believe"
+    },
+    "values": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.value"
+    },
+    "regionsHeading": {
+      "type": "string",
+      "default": "Where we source"
+    },
+    "regionsCaption": {
+      "type": "string",
+      "default": "8 regions across the archipelago"
+    },
+    "regions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.region"
+    },
+    "timelineHeading": {
+      "type": "string",
+      "default": "Milestones"
+    },
+    "timeline": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.milestone"
+    },
+    "ctaTitle": {
+      "type": "string",
+      "default": "Interested in sourcing from us?"
+    }
+  }
+}

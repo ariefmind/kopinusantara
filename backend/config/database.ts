@@ -15,6 +15,7 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Database 
     mysql: {
       client: 'mysql',
       connection: {
+        socketPath: env('DATABASE_SOCKET', undefined),
         host: env('DATABASE_HOST', 'localhost'),
         port: env.int('DATABASE_PORT', 3306),
         database: env('DATABASE_NAME', 'strapi'),
